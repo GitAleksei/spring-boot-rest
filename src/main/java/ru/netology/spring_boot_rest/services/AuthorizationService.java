@@ -1,13 +1,11 @@
 package ru.netology.spring_boot_rest.services;
 
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.netology.spring_boot_rest.exceptions.InvalidCredentials;
 import ru.netology.spring_boot_rest.exceptions.UnauthorizedUser;
 import ru.netology.spring_boot_rest.model.Authorities;
+import ru.netology.spring_boot_rest.model.User;
 import ru.netology.spring_boot_rest.repositories.UserRepository;
 
 import java.util.List;
@@ -20,8 +18,10 @@ public class AuthorizationService {
         this.userRepository = userRepository;
     }
 
-    public List<Authorities> getAuthorities(String name, String password) throws InvalidCredentials,
+    public List<Authorities> getAuthorities(User user) throws InvalidCredentials,
             UnauthorizedUser {
+        String name = user.getName();
+        String password = user.getPassword();
         if (isEmpty(name) || isEmpty(password)) {
             throw new InvalidCredentials("User name or password is empty");
         }
